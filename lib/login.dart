@@ -1,80 +1,86 @@
 import 'package:flutter/material.dart';
+import 'package:only_hustlers_app/services/auth.dart';
+import 'package:only_hustlers_app/services/auth.dart';
 
-class SignupPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
   @override
-  _SignupPage createState() => new _SignupPage();
+  _LoginPage createState() => new _LoginPage();
 }
 
-class _SignupPage extends State<SignupPage> {
+class _LoginPage extends State<LoginPage> {
+  final AuthSercive _auth = AuthSercive();
+  final _formKey = GlobalKey<FormState>();
+
+  String email = '';
+  String password = '';
+  String error = '';
+
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
         resizeToAvoidBottomInset: false,
-        body: ListView(
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Container(
                 child: Stack(children: <Widget>[
               Container(
-                padding: EdgeInsets.fromLTRB(15.0, 110.0, 0, 0),
-                child: Text('Are You Ready',
+                padding: EdgeInsets.fromLTRB(15.0, 175.0, 0, 0),
+                child: Text('Only',
                     style:
-                        TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold)),
+                        TextStyle(fontSize: 80.0, fontWeight: FontWeight.bold)),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(15.0, 175.0, 0, 0),
-                child: Text('To Hustle?',
+                padding: EdgeInsets.fromLTRB(15.0, 110.0, 0, 0),
+                child: Text('Hustlers',
                     style:
-                        TextStyle(fontSize: 50.0, fontWeight: FontWeight.bold)),
+                        TextStyle(fontSize: 80.0, fontWeight: FontWeight.bold)),
               )
             ])),
             Form(
+                key: _formKey,
                 child: Container(
                     padding:
                         EdgeInsets.only(top: 35.0, left: 20.0, right: 20.0),
                     child: Column(
                       children: <Widget>[
-                        TextField(
-                            decoration: InputDecoration(
-                                labelText: 'First Name',
-                                labelStyle: TextStyle(
-                                    fontFamily: 'Montserrat',
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey),
-                                focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.green)))),
-                        SizedBox(height: 20.0),
-                        TextField(
+                        TextFormField(
                           decoration: InputDecoration(
-                              labelText: 'Last Name',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.green))),
+                            hintText: 'Email',
+                          ),
+                          validator: (val) =>
+                              val.isEmpty ? 'Enter an email' : null,
+                          onChanged: (val) {
+                            setState(() => email = val);
+                          },
                         ),
                         SizedBox(height: 20.0),
-                        TextField(
+                        TextFormField(
                           decoration: InputDecoration(
-                              labelText: 'Email (This will be your username)',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.green))),
+                            hintText: 'Password',
+                          ),
+                          validator: (val) => val.length < 6
+                              ? 'Enter a password that is at least 6 characters'
+                              : null,
+                          obscureText: true,
+                          onChanged: (val) {
+                            setState(() => password = val);
+                          },
                         ),
-                        SizedBox(height: 20.0),
-                        TextField(
-                          decoration: InputDecoration(
-                              labelText: 'Create Password',
-                              labelStyle: TextStyle(
-                                  fontFamily: 'Montserrat',
+                        SizedBox(height: 5.0),
+                        Container(
+                          alignment: Alignment(1.0, 0.0),
+                          padding: EdgeInsets.only(top: 15.0, left: 20.0),
+                          child: InkWell(
+                            child: Text(
+                              'Forgot Password?',
+                              style: TextStyle(
+                                  color: Colors.green,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.grey),
-                              focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.green))),
+                                  fontFamily: 'Montserrat',
+                                  decoration: TextDecoration.underline),
+                            ),
+                          ),
                         ),
                         SizedBox(height: 40.0),
                         Container(
@@ -85,12 +91,20 @@ class _SignupPage extends State<SignupPage> {
                               color: Colors.green,
                               elevation: 7.0,
                               child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed('/goals');
+                                onTap: () async {
+                                  if (_formKey.currentState.validate()) {
+                                    dynamic result =
+                                        await _auth.signinWithEmailPassword(
+                                            email, password);
+                                    if (result == null) {
+                                      setState(() =>
+                                          error = 'Credentials are invalid');
+                                    }
+                                  }
                                 },
                                 child: Center(
                                   child: Text(
-                                    'COMPLETE',
+                                    'LOGIN',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,
@@ -108,10 +122,12 @@ class _SignupPage extends State<SignupPage> {
                               color: Colors.blue,
                               elevation: 7.0,
                               child: GestureDetector(
-                                onTap: () {},
+                                onTap: () {
+                                  Navigator.of(context).pushNamed('/signup');
+                                },
                                 child: Center(
                                   child: Text(
-                                    'BACK',
+                                    'SIGN UP',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold,

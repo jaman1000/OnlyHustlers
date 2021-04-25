@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "166752312927",
+    "project_id": "only-hustlers",
+    "storage_bucket": "only-hustlers.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:166752312927:android:97a81c4261e197f91345ea",
+        "android_client_info": {
+          "package_name": "Only.Hustlers"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "166752312927-lbkqebkkthcvtko2ek6vkbojmgacf6jg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAdTlH8l92COPm0PwYkVycXTxtWzfgBOZw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "166752312927-lbkqebkkthcvtko2ek6vkbojmgacf6jg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

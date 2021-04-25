@@ -21,8 +21,15 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  image_picker: ^0.6.6+5
+  flutter_blue: ^0.6.3+1
+  provider: ^3.1.0
+  firebase_core: ^0.4.4
+  firebase_auth: ^0.15.4
+  cloud_firestore: ^0.13.3
+  auth: ^4.2.0
   flutter:
-    sdk: flutter
+    sdk: flutter 
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -32,6 +39,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+assets:
+   - images/OHpic.PNG
+   - images/placeholder.png
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
