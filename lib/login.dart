@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:only_hustlers_app/services/auth.dart';
+import 'package:only_hustlers_app/popUp.dart';
 import 'package:only_hustlers_app/services/auth.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,7 +10,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPage extends State<LoginPage> {
   final AuthSercive _auth = AuthSercive();
   final _formKey = GlobalKey<FormState>();
-
   String email = '';
   String password = '';
   String error = '';
@@ -25,13 +24,13 @@ class _LoginPage extends State<LoginPage> {
             Container(
                 child: Stack(children: <Widget>[
               Container(
-                padding: EdgeInsets.fromLTRB(15.0, 175.0, 0, 0),
+                padding: EdgeInsets.fromLTRB(15.0, 60.0, 0, 0),
                 child: Text('Only',
                     style:
                         TextStyle(fontSize: 80.0, fontWeight: FontWeight.bold)),
               ),
               Container(
-                padding: EdgeInsets.fromLTRB(15.0, 110.0, 0, 0),
+                padding: EdgeInsets.fromLTRB(15.0, 135.0, 0, 0),
                 child: Text('Hustlers',
                     style:
                         TextStyle(fontSize: 80.0, fontWeight: FontWeight.bold)),
@@ -85,23 +84,22 @@ class _LoginPage extends State<LoginPage> {
                         SizedBox(height: 40.0),
                         Container(
                             height: 40.0,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(20.0),
-                              shadowColor: Colors.greenAccent,
-                              color: Colors.green,
-                              elevation: 7.0,
-                              child: GestureDetector(
-                                onTap: () async {
-                                  if (_formKey.currentState.validate()) {
-                                    dynamic result =
-                                        await _auth.signinWithEmailPassword(
-                                            email, password);
-                                    if (result == null) {
-                                      setState(() =>
-                                          error = 'Credentials are invalid');
-                                    }
+                            child: GestureDetector(
+                              onTap: () async {
+                                if (_formKey.currentState.validate()) {
+                                  dynamic result = await _auth
+                                      .signinWithEmailPassword(email, password);
+                                  if (result == null) {
+                                    setState(() =>
+                                        error = 'Credentials are invalid');
                                   }
-                                },
+                                }
+                              },
+                              child: Material(
+                                borderRadius: BorderRadius.circular(20.0),
+                                shadowColor: Colors.greenAccent,
+                                color: Colors.green,
+                                elevation: 7.0,
                                 child: Center(
                                   child: Text(
                                     'LOGIN',
@@ -116,15 +114,15 @@ class _LoginPage extends State<LoginPage> {
                         SizedBox(height: 20.0),
                         Container(
                             height: 40.0,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(20.0),
-                              shadowColor: Colors.blueAccent,
-                              color: Colors.blue,
-                              elevation: 7.0,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pushNamed('/signup');
-                                },
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushNamed('/signup');
+                              },
+                              child: Material(
+                                borderRadius: BorderRadius.circular(20.0),
+                                shadowColor: Colors.blueAccent,
+                                color: Colors.blue,
+                                elevation: 7.0,
                                 child: Center(
                                   child: Text(
                                     'SIGN UP',

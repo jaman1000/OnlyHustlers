@@ -7,7 +7,9 @@ class AuthSercive {
     return user != null ? User(uid: user.uid) : null;
   }
 
-  Stream<User> get user => _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+  Stream<User> get user {
+    return _auth.onAuthStateChanged.map(_userFromFirebaseUser);
+  }
 
   Future signin(String email, String password) async {
     try {

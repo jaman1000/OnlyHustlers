@@ -91,22 +91,22 @@ class _SignupPage extends State<SignupPage> {
                         SizedBox(height: 40.0),
                         Container(
                             height: 40.0,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(20.0),
-                              shadowColor: Colors.greenAccent,
-                              color: Colors.green,
-                              elevation: 7.0,
-                              child: GestureDetector(
-                                onTap: () async {
-                                  if (_formKey.currentState.validate()) {
-                                    dynamic result =
-                                        await _auth.signin(email, password);
-                                    if (result == null) {
-                                      setState(() =>
-                                          error = 'Please provide valid email');
-                                    }
+                            child: GestureDetector(
+                              onTap: () async {
+                                if (_formKey.currentState.validate()) {
+                                  dynamic result =
+                                      await _auth.signin(email, password);
+                                  if (result == null) {
+                                    setState(() =>
+                                        error = 'Please provide valid email');
                                   }
-                                },
+                                }
+                              },
+                              child: Material(
+                                borderRadius: BorderRadius.circular(20.0),
+                                shadowColor: Colors.greenAccent,
+                                color: Colors.green,
+                                elevation: 7.0,
                                 child: Center(
                                   child: Text(
                                     'COMPLETE',
@@ -121,13 +121,15 @@ class _SignupPage extends State<SignupPage> {
                         SizedBox(height: 20.0),
                         Container(
                             height: 40.0,
-                            child: Material(
-                              borderRadius: BorderRadius.circular(20.0),
-                              shadowColor: Colors.blueAccent,
-                              color: Colors.blue,
-                              elevation: 7.0,
-                              child: GestureDetector(
-                                onTap: () {},
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pushNamed('/login');
+                              },
+                              child: Material(
+                                borderRadius: BorderRadius.circular(20.0),
+                                shadowColor: Colors.blueAccent,
+                                color: Colors.blue,
+                                elevation: 7.0,
                                 child: Center(
                                   child: Text(
                                     'BACK',

@@ -1,8 +1,11 @@
 import 'dart:ui';
 import 'dart:io';
 import 'dart:async';
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:only_hustlers_app/services/stopwatch.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -10,14 +13,50 @@ class Dashboard extends StatefulWidget {
 }
 
 class _Dashboard extends State<Dashboard> {
-  @override
+  int timeNow = 0;
   int _itemCount = 0;
   int _itemCount1 = 0;
   int _itemCount2 = 0;
-  int _break = 0;
   int _clientTime = 0;
   String userImageUrl = '';
   File _imageFile;
+  int _counter = 0;
+  int _hours = 0;
+  Timer _timer;
+  Timer _timerHours;
+  TextEditingController dailyGoalController = new TextEditingController();
+
+  void _startTimer() {
+    _counter = 0;
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    _timer = Timer.periodic(Duration(minutes: 1), (timer) {
+      setState(() {
+        if (_counter < 200) {
+          _counter++;
+        }
+      });
+    });
+  }
+
+  void _startTimerHours() {
+    _hours = 0;
+    if (_timer != null) {
+      _timer.cancel();
+    }
+    _timerHours = Timer.periodic(Duration(hours: 1), (timer) {
+      if (_hours < 24) {
+        _hours++;
+      } else {
+        _hours = 0;
+      }
+    });
+  }
+
+  void _endTimer() {
+    _timer.cancel();
+  }
 
   _imgFromGallery() async {
     final pickedImageFile =
@@ -73,24 +112,28 @@ class _Dashboard extends State<Dashboard> {
         });
   }
 
-  Widget tyButton = ElevatedButton(
-    child: Text("I Got This"),
-    onPressed: () {},
-  );
-
-  Widget yes = ElevatedButton(
-    child: Text("Yes"),
-    onPressed: () {},
-  );
-
-  Widget no = ElevatedButton(
-    child: Text("No"),
-    onPressed: () {},
-  );
-
   Widget build(BuildContext context) {
-    double _screenWidth = MediaQuery.of(context).size.width,
-        _screenHeight = MediaQuery.of(context).size.height;
+    DateTime now = new DateTime.now();
+    DateTime today = new DateTime(now.year, now.month, now.day);
+    DateTime endDate = new DateTime(now.year, 8, 30);
+    final daysLeft = endDate.difference(now).inDays;
+    String _goal = dailyGoalController.text;
+
+    Widget tyButton = ElevatedButton(
+      child: Text("I Got This"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+        _startTimerHours();
+      },
+    );
+
+    Widget ok = ElevatedButton(
+      child: Text("Great!"),
+      onPressed: () {
+        Navigator.of(context, rootNavigator: true).pop('dialog');
+      },
+    );
+
     return new Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.blue,
@@ -123,7 +166,7 @@ class _Dashboard extends State<Dashboard> {
                     top: 28,
                     left: 60,
                     child: Container(
-                      height: 20,
+                      height: 36,
                       width: 115,
                       decoration: BoxDecoration(
                         color: Colors.deepOrange,
@@ -134,7 +177,7 @@ class _Dashboard extends State<Dashboard> {
                       ),
                       child: Center(
                         child: Text(
-                          'Date: 03/27/2021',
+                          ' Date: ' + '$today',
                           style: TextStyle(color: Colors.white, fontSize: 11.0),
                         ),
                       ),
@@ -155,7 +198,7 @@ class _Dashboard extends State<Dashboard> {
                       ),
                       child: Center(
                         child: Text(
-                          '0 days left of season',
+                          '$daysLeft ' + 'days left of season',
                           style: TextStyle(color: Colors.white, fontSize: 11.0),
                         ),
                       ),
@@ -216,16 +259,23 @@ class _Dashboard extends State<Dashboard> {
                           elevation: 7.0,
                           child: GestureDetector(
                             onTap: () {
+                              _endTimer();
                               showDialog(
                                   context: context,
                                   builder: (_) => AlertDialog(
-                                        title: new Text('Last Door'),
-                                        content:
-                                            Text('Did You Meet Your Goal?'),
-                                        actions: [
-                                          yes,
-                                          no,
-                                        ],
+                                        title: new Text(
+                                            'Here is a recap of your day'),
+                                        content: Text('\n'
+                                                'Daily goal: ' +
+                                            '$_goal' +
+                                            '\n\n'
+                                                'Sales made: ' +
+                                            '$_itemCount' +
+                                            '\n\n'
+                                                'Doors knocked: ' +
+                                            '$_itemCount1' +
+                                            '\n\n'),
+                                        actions: [ok],
                                       ));
                             },
                             child: Center(
@@ -249,12 +299,12 @@ class _Dashboard extends State<Dashboard> {
                         radius: 32,
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(50),
-                          child: Image.file(
+                          /* child: Image.file(
                             _imageFile,
                             width: 80,
                             height: 80,
                             fit: BoxFit.cover,
-                          ),
+                          ), */
                         )),
                   ),
 
@@ -298,6 +348,7 @@ class _Dashboard extends State<Dashboard> {
                                   child: Align(
                                       alignment: Alignment.center,
                                       child: TextField(
+                                        controller: dailyGoalController,
                                         textAlign: TextAlign.center,
                                         decoration: InputDecoration(
                                             border: InputBorder.none,
@@ -1001,7 +1052,7 @@ class _Dashboard extends State<Dashboard> {
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Text(
-                                        '$_break' + ' min',
+                                        '$_counter ' + ' min',
                                         style: TextStyle(fontSize: 20),
                                       ),
                                     ),
@@ -1017,10 +1068,7 @@ class _Dashboard extends State<Dashboard> {
                                             width: 35,
                                             child: GestureDetector(
                                               onTap: () {
-                                                setState(() {
-                                                  if (_itemCount > 0)
-                                                    _itemCount--;
-                                                });
+                                                _endTimer();
                                               },
                                               child: Material(
                                                 borderRadius:
@@ -1049,9 +1097,7 @@ class _Dashboard extends State<Dashboard> {
                                             width: 35,
                                             child: GestureDetector(
                                               onTap: () {
-                                                setState(() {
-                                                  _itemCount++;
-                                                });
+                                                _startTimer();
                                               },
                                               child: Material(
                                                 borderRadius:
@@ -1210,7 +1256,7 @@ class _Dashboard extends State<Dashboard> {
                 style: ElevatedButton.styleFrom(primary: Colors.white),
                 onPressed: () {},
                 child: Text(
-                  'Hours Worked',
+                  'Hours Worked: ' + '$_hours',
                   style: TextStyle(color: Colors.blueAccent),
                 ),
               ),
