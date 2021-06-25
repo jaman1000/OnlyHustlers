@@ -8,7 +8,7 @@ class SignupPage extends StatefulWidget {
 
 class _SignupPage extends State<SignupPage> {
   final _formKey = GlobalKey<FormState>();
-  final AuthSercive _auth = AuthSercive();
+  //final AuthSercive _auth = AuthSercive();
 
   String firstName = '';
   String lastName = '';
@@ -92,7 +92,7 @@ class _SignupPage extends State<SignupPage> {
                         Container(
                             height: 40.0,
                             child: GestureDetector(
-                              onTap: () async {
+                              /*  onTap: () async {
                                 if (_formKey.currentState.validate()) {
                                   dynamic result =
                                       await _auth.signin(email, password);
@@ -101,7 +101,7 @@ class _SignupPage extends State<SignupPage> {
                                         error = 'Please provide valid email');
                                   }
                                 }
-                              },
+                              }, */
                               child: Material(
                                 borderRadius: BorderRadius.circular(20.0),
                                 shadowColor: Colors.greenAccent,
