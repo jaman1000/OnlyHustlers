@@ -17,17 +17,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamProvider<User>.value(
-      value: AuthSercive().user,
-      initialData: null,
-      child: MaterialApp(
-        routes: <String, WidgetBuilder>{
-          '/signup': (BuildContext context) => new SignupPage(),
-          '/login': (BuildContext context) => LoginPage(),
-          '/goals': (BuildContext context) => Goals(),
-        },
-        //home: Wrapper(),
-        home: Dashboard(),
-      )
-    );
+        // value: AuthSercive().user,
+        initialData: null,
+        child: MaterialApp(
+          routes: <String, WidgetBuilder>{
+            '/signup': (BuildContext context) => new SignupPage(),
+            '/login': (BuildContext context) => LoginPage(),
+            '/goals': (BuildContext context) => Goals(),
+          },
+          //home: Wrapper(),
+          home: Dashboard(),
+        ));
   }
 }
