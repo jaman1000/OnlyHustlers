@@ -26,8 +26,8 @@ class MyApp extends StatelessWidget {
           '/goals': (BuildContext context) => Goals(),
         },
         //home: Wrapper(),
-        home: new Dashboard(),
-      ),
+        home: Dashboard(),
+      )
     );
   }
 }
