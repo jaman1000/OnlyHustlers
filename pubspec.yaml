@@ -25,7 +25,12 @@ dependencies:
   intl: ^0.16.1
   flutter_countdown_timer: ^4.1.0
   image_picker: ^0.6.6+5
+  flutter_blue: ^0.8.0
   provider: ^5.0.0
+  firebase_core: ^0.4.4
+  firebase_auth: ^0.15.4
+  cloud_firestore: ^0.13.3
+  auth: ^4.2.0
   flutter:
     sdk: flutter 
 

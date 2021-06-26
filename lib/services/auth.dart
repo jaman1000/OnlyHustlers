@@ -1,4 +1,4 @@
-/*import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:only_hustlers_app/models/user.dart';
 
 class AuthSercive {
@@ -34,4 +34,4 @@ class AuthSercive {
       return null;
     }
   }
-} */
+}

@@ -8,7 +8,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPage extends State<LoginPage> {
-  // final AuthSercive _auth = AuthSercive();
+  final AuthSercive _auth = AuthSercive();
   final _formKey = GlobalKey<FormState>();
   String email = '';
   String password = '';
@@ -85,7 +85,7 @@ class _LoginPage extends State<LoginPage> {
                         Container(
                             height: 40.0,
                             child: GestureDetector(
-                              /*  onTap: () async {
+                              onTap: () async {
                                 if (_formKey.currentState.validate()) {
                                   dynamic result = await _auth
                                       .signinWithEmailPassword(email, password);
@@ -94,7 +94,7 @@ class _LoginPage extends State<LoginPage> {
                                         error = 'Credentials are invalid');
                                   }
                                 }
-                              },*/
+                              },
                               child: Material(
                                 borderRadius: BorderRadius.circular(20.0),
                                 shadowColor: Colors.greenAccent,
